@@ -1,0 +1,1 @@
+export const MENU_ICON_ALT_TEXT = "Icons erstellt from 'https://www.flaticon.com/de/autoren/good-ware' downloaded from 'https://www.flaticon.com/de/'";
