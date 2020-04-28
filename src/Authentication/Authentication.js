@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { useMutation } from "@apollo/react-hooks";
 import { useForm } from "react-hook-form";
 
 import classes from "./Authentication.module.css";
 import createInput, { defaultRules, patternRules } from "../shared/createInput";
 import Input from "../UI/Input/Input";
+import { createUserSchema } from "../GraphQl/Schema/Schema";
 
 const Authentication = (props) => {
-  const { register, handleSubmit, errors } = useForm({mode: "onBlur"});
+  const { register, handleSubmit, errors } = useForm({ mode: "onBlur" });
+  const [createUser, { data, loading, error }] = useMutation(createUserSchema);
 
   const inputSchemas = {
     email: createInput("input", "email", "Email Address", "", {
@@ -41,8 +44,12 @@ const Authentication = (props) => {
     );
   });
 
-  const onSubmitHandler = (data) => {
-    // do stuff here
+  const onSubmitHandler = ({ name, email, password }) => {
+    createUser({
+      variables: {
+        userInput: { name: name, email: email, password: password },
+      },
+    })
   };
 
   return (
