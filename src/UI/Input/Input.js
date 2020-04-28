@@ -4,9 +4,11 @@ import classes from "./Input.module.css";
 
 const Input = (props) => {
   let classNameArray = [classes.InputElement];
+  let error;
 
-  if(props.errors.length !== 0 && props.touched){
-    classNameArray.push(classes.Invalid)
+  if (props.error) {
+    classNameArray.push(classes.Invalid);
+    error = <p style={{color: "red"}}>{props.error.message}</p>
   }
 
   let inputElement;
@@ -15,9 +17,8 @@ const Input = (props) => {
     case "input":
       inputElement = (
         <input
+          ref={props.fromReference}
           {...props.elementConfig}
-          value={props.value}
-          onChange={props.changed}
           className={classNameArray.join(" ")}
         />
       );
@@ -27,10 +28,11 @@ const Input = (props) => {
   }
 
   return (
-      <div className={classes.Input}>
-        <label className={classes.Label}>{props.label}</label>
-        {inputElement}
-      </div>
+    <div className={classes.Input}>
+      <label className={classes.Label}>{props.label}</label>
+      {error}
+      {inputElement}
+    </div>
   );
 };
 
