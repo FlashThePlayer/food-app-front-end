@@ -6,10 +6,14 @@ import classes from "./Authentication.module.css";
 import createInput, { defaultRules, patternRules } from "../shared/createInput";
 import Input from "../UI/Input/Input";
 import { createUserSchema } from "../GraphQl/Schema/Schema";
+import Modal from "../UI/Modal/Modal";
 
 const Authentication = (props) => {
   const { register, handleSubmit, errors } = useForm({ mode: "onBlur" });
-  const [createUser, { data, loading, error }] = useMutation(createUserSchema);
+  const [createUser, { data }] = useMutation(
+    createUserSchema
+  );
+  const [networkError, setNetworkError] = useState();
 
   const inputSchemas = {
     email: createInput("input", "email", "Email Address", "", {
@@ -49,18 +53,38 @@ const Authentication = (props) => {
       variables: {
         userInput: { name: name, email: email, password: password },
       },
-    })
+    }).catch((error) => {
+      setNetworkError(error);
+    });
   };
 
+  const clearNetworkErrorHandler = () => {
+    console.log(networkError)
+    setNetworkError(null);
+  };
+
+  let errorMessage = null;
+
+  if (networkError) {
+    errorMessage = (
+      <Modal show={networkError} modalClosed={clearNetworkErrorHandler}>
+        <p>There seems to be a problem with our Authentication server, try again later!</p>
+      </Modal>
+    );
+  }
+
   return (
-    <div className={classes.Auth}>
-      <form onSubmit={handleSubmit(onSubmitHandler)}>
-        {form}
-        <button className={classes.Button} type="submit">
-          submit
-        </button>
-      </form>
-    </div>
+    <React.Fragment>
+      {errorMessage}
+      <div className={classes.Auth}>
+        <form onSubmit={handleSubmit(onSubmitHandler)}>
+          {form}
+          <button className={classes.Button} type="submit">
+            submit
+          </button>
+        </form>
+      </div>
+    </React.Fragment>
   );
 };
 
