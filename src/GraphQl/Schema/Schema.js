@@ -8,3 +8,9 @@ export const createUserSchema = gql`
     }
   }
 `;
+
+export const loginUserSchema = gql `
+    mutation loginUser($userInput: loginUserInputData){
+        loginUser(userInput: $userInput)
+    }
+`;
