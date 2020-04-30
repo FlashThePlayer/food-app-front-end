@@ -28,9 +28,9 @@ export const patternRules = (type) => {
       };
     case "password":
       return {
-        value: /^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$/,
+        value: /^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=-]).*$/,
         message:
-          "Not a valid password! Valid Special characters are: '@ # $ % ^ & + ='",
+          "Not a valid password! Valid Special characters are: '@ # $ % ^ & + = -'",
       };
     default:
       throw new Error(`${type} rule pattern not supported!`);

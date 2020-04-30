@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 
 import classes from "./Authentication.module.css";
-import createInput, { defaultRules, patternRules } from "../shared/createInput";
 import Input from "../UI/Input/Input";
-import { createUserSchema, loginUserSchema } from "../GraphQl/Schema/Schema";
 import Modal from "../UI/Modal/Modal";
 import ToggleButton from "../UI/Button/ToggleButton/ToggleButton";
 import SubmitButton from "../UI/Button/SubmitButton/SubmitButton";
 import Spinner from "../UI/Spinner/Spinner";
+import createInput, { defaultRules, patternRules } from "../Shared/createInput";
+import { createUserSchema, loginUserSchema } from "../GraphQl/Schema/Schema";
+import { authUser } from "../Store/Actions/Index";
 
 const Authentication = (props) => {
+  const dispatch = useDispatch();
+
   const { register, handleSubmit, errors } = useForm({ mode: "onBlur" });
-  const [
-    createUser,
-    { data: createUserData, loading: signUpLoading },
-  ] = useMutation(createUserSchema);
-  const [
-    loginUser,
-    { data: loginUserData, loading: signInLoading },
-  ] = useMutation(loginUserSchema);
+  const [createUser, { loading: signUpLoading }] = useMutation(
+    createUserSchema
+  );
+  const [loginUser, { loading: signInLoading }] = useMutation(loginUserSchema);
   const [isSignUp, setIsSignUp] = useState(false);
   const [networkError, setNetworkError] = useState();
 
@@ -80,7 +80,9 @@ const Authentication = (props) => {
     } else {
       loginUser({
         variables: { userInput: { email: email, password: password } },
-      }).catch((errors) => setNetworkError(errors));
+      })
+        .then((response) => dispatch(authUser(response.data.loginUser)))
+        .catch((errors) => setNetworkError(errors));
     }
   };
 
