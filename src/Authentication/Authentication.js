@@ -116,7 +116,11 @@ const Authentication = (props) => {
           <SubmitButton>Submit</SubmitButton>
         </form>
       </div>
-      {signInLoading || signUpLoading ? <Spinner /> : null}
+      {signInLoading || signUpLoading ? (
+        <div className={classes.Spinner}>
+          <Spinner />
+        </div>
+      ) : null}
       <div className={classes.SwitchButton}>
         <ToggleButton clicked={formLogicHandler} />
       </div>
