@@ -7,7 +7,7 @@ const Logout = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(logout());
+    dispatch(logout(props.history));
   }, [dispatch]);
 
   return <Redirect to="/" />;

@@ -13,7 +13,7 @@ export function* authUserSaga(action) {
 
   yield localStorage.setItem("token", action.token);
   yield localStorage.setItem("userEmail", action.userEmail);
-  yield put(checkAuthExpDate(new Date(exp * 1000).getTime(), action.history))
+  yield put(checkAuthExpDate(new Date(exp * 1000).getTime() /1000, action.history))
   yield put(authSuccess(action.token, action.userEmail));
 }
 
@@ -26,7 +26,6 @@ export function* logoutUserSaga(action) {
 
 export function* checkAuthExpDateSaga(action) {
   yield delay(action.expirationTime);
-  yield delay(5000);
   yield put(logout(action.history));
 }
 
@@ -48,7 +47,7 @@ export function* checkAuthStateSage(action) {
         yield put(authSuccess(token, email));
         yield put(
           checkAuthExpDate(
-            expirationDate.getTime() - new Date().getTime(),
+            expirationDate.getTime() - new Date().getTime() / 1000,
             action.history
           )
         );

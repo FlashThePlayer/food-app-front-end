@@ -6,11 +6,12 @@ import "./App.css";
 
 import Layout from "./HOC/Layout/Layout";
 import Spinner from "./UI/Spinner/Spinner";
-import HomePage from "./HomePage/HomePage";
+import HomePage from "./Pages/HomePage/HomePage";
 import Authentication from "./Authentication/Authentication";
 import defaultClient from "./GraphQl/ApolloClient";
 import { checkAuthState } from "./Store/Actions/Index";
 import Logout from "./Authentication/Logout/Logout";
+import CreateFood from "./Pages/CreateFood/CreateFood";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -35,6 +36,7 @@ const App = (props) => {
     routes = (
         <Switch>
           <Route path="/logout" render={(props) => <Logout {...props} />} />
+          <Route path="/createFood" render={(props) => <CreateFood {...props} />} />
           <Route path="/" render={(props) => <HomePage {...props} />} />
           <Redirect to="/" />
         </Switch>

@@ -25,22 +25,22 @@ const Authentication = (props) => {
   const [networkError, setNetworkError] = useState();
 
   const signUpSchema = {
-    email: createInput("input", "email", "Email Address", "", {
+    email: createInput("email", "Email Address", "", {
       ...defaultRules,
       pattern: patternRules("email"),
     }),
-    password: createInput("input", "password", "Password", "", {
+    password: createInput("password", "Password", "", {
       ...defaultRules,
       pattern: patternRules("password"),
     }),
-    name: createInput("input", "name", "Your name", "", { ...defaultRules }),
+    name: createInput("name", "Your name", "", { ...defaultRules }),
   };
 
   const signInSchema = {
-    email: createInput("input", "email", "Email Address", "", {
+    email: createInput("email", "Email Address", "", {
       validate: false,
     }),
-    password: createInput("input", "password", "Password", "", {
+    password: createInput("password", "Password", "", {
       validate: false,
     }),
   };
@@ -83,7 +83,6 @@ const Authentication = (props) => {
       })
         .then((response) => {
           dispatch(authUser(response.data.loginUser, email, props.history));
-          props.history.push('/');
         })
         .catch((errors) => setNetworkError(errors));
     }

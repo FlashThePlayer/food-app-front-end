@@ -1,6 +1,6 @@
-const createInput = (type, configType, placeholder, defaultValue, rules) => {
+const createInput = (configType, placeholder, defaultValue, rules) => {
   return {
-    elementType: type,
+    elementType: "input",
     elementConfig: {
       type: configType,
       name: configType,
