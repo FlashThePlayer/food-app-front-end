@@ -19,8 +19,9 @@ const NavigationItems = (props) => {
   if (isAuthenticated) {
     navLinks = (
       <ul className={classes.NavigationItems}>
-        <NavigationItem link="/">Home</NavigationItem>
-        <NavigationItem link="logout">Logout</NavigationItem>
+          <NavigationItem link="/">Home</NavigationItem>
+          <NavigationItem link="createFood">create Food</NavigationItem>
+          <NavigationItem link="logout">Logout</NavigationItem>
       </ul>
     );
   }
