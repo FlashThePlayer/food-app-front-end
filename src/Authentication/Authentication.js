@@ -81,7 +81,10 @@ const Authentication = (props) => {
       loginUser({
         variables: { userInput: { email: email, password: password } },
       })
-        .then((response) => dispatch(authUser(response.data.loginUser)))
+        .then((response) => {
+          dispatch(authUser(response.data.loginUser, email, props.history));
+          props.history.push('/');
+        })
         .catch((errors) => setNetworkError(errors));
     }
   };

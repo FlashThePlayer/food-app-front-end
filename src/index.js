@@ -2,18 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import { createStore, applyMiddleware, combineReducers } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import createSagaMiddleware from "redux-saga";
 
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import authReducer from "./Store/Reducer/Auth";
+import rootReducer from "./Store/Reducer/Index";
 import { watchAuth } from "./Store/Saga/Index";
 
-const rootReducer = combineReducers({
-  auth: authReducer,
-});
 
 const sagaMiddleware = createSagaMiddleware();
 

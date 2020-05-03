@@ -1,2 +1,8 @@
 export const AUTH_SUCCESS = "AUTH_SUCCESS";
+export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+
 export const AUTH_USER = "AUTH_USER";
+export const LOGOUT_USER = "LOGOUT_USER";
+export const CHECK_AUTH_STATE = "CHECK_AUTH_STATE";
+export const CHECK_AUTH_EXP_DATE = "CHECK_AUTH_EXP_DATE";
+export const CHECK_AUTH_TIMEOUT = "CHECK_AUTH_TIMEOUT";
