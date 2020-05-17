@@ -47,7 +47,7 @@ export function* checkAuthStateSage(action) {
         yield put(authSuccess(token, email));
         yield put(
           checkAuthExpDate(
-            expirationDate.getTime() - new Date().getTime() / 1000,
+            expirationDate.getTime() - new Date().getTime(),
             action.history
           )
         );
