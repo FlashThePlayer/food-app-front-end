@@ -17,6 +17,8 @@ export const loginUserSchema = gql `
 
 export const createFoodSchema = gql `
     mutation createFood($foodInput: FoodInputData){
-        createFood(foodInput: $foodInput)
+        createFood(foodInput: $foodInput) {
+            name
+        }
     }
 `;
