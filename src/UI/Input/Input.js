@@ -8,7 +8,7 @@ const Input = (props) => {
 
   if (props.error) {
     classNameArray.push(classes.Invalid);
-    error = <p style={{color: "red"}}>{props.error.message}</p>
+    error = <p style={{ color: "red" }}>{props.error.message}</p>;
   }
 
   let inputElement;
@@ -17,10 +17,20 @@ const Input = (props) => {
     case "input":
       inputElement = (
         <input
-          ref={props.fromReference}
+          ref={props.formReference}
           {...props.elementConfig}
           className={classNameArray.join(" ")}
         />
+      );
+      break;
+    case "select":
+      const selectOptions = props.value.map((value) => {
+        return <option key={value} value={value}>{value}</option>;
+      });
+      inputElement = (
+        <select {...props.elementConfig} defaultValue={props.defaultValue} ref={props.formReference}>
+          {selectOptions}
+        </select>
       );
       break;
     default:

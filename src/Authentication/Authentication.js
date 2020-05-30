@@ -9,7 +9,10 @@ import Modal from "../UI/Modal/Modal";
 import ToggleButton from "../UI/Button/ToggleButton/ToggleButton";
 import SubmitButton from "../UI/Button/SubmitButton/SubmitButton";
 import Spinner from "../UI/Spinner/Spinner";
-import createInput, { defaultRules, patternRules } from "../Shared/createInput";
+import createFormFields, {
+  defaultRules,
+  patternRules,
+} from "../Shared/createFormFields";
 import { createUserSchema, loginUserSchema } from "../GraphQl/Schema/Schema";
 import { authUser } from "../Store/Actions/Index";
 
@@ -25,22 +28,24 @@ const Authentication = (props) => {
   const [networkError, setNetworkError] = useState();
 
   const signUpSchema = {
-    email: createInput("email", "Email Address", "", {
+    email: createFormFields("email", "email", "Email Address", "", {
       ...defaultRules,
       pattern: patternRules("email"),
     }),
-    password: createInput("password", "Password", "", {
+    password: createFormFields("password", "password", "Password", "", {
       ...defaultRules,
       pattern: patternRules("password"),
     }),
-    name: createInput("name", "Your name", "", { ...defaultRules }),
+    name: createFormFields("name", "name", "Your name", "", {
+      ...defaultRules,
+    }),
   };
 
   const signInSchema = {
-    email: createInput("email", "Email Address", "", {
+    email: createFormFields("email", "email", "Email Address", "", {
       validate: false,
     }),
-    password: createInput("password", "Password", "", {
+    password: createFormFields("password", "password", "Password", "", {
       validate: false,
     }),
   };
@@ -58,7 +63,7 @@ const Authentication = (props) => {
   let form = formElementArray.map((element) => {
     return (
       <Input
-        fromReference={register(element.config.rules)}
+        formReference={register(element.config.rules)}
         key={element.id}
         label={element.id}
         elementType={element.config.elementType}
@@ -84,7 +89,9 @@ const Authentication = (props) => {
         .then((response) => {
           dispatch(authUser(response.data.loginUser, email, props.history));
         })
-        .catch((errors) => setNetworkError(errors));
+        .catch((errors) => {
+          setNetworkError(errors);
+        });
     }
   };
 
