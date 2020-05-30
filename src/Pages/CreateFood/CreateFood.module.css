@@ -8,6 +8,12 @@
   grid-column: 2/3;
 }
 
+.ChipInput {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
 .Spinner {
   grid-column: 2/3;
   grid-row: 2/3;
