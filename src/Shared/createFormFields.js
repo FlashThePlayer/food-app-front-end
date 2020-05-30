@@ -1,12 +1,35 @@
-const createInput = (configType, placeholder, defaultValue, rules) => {
+const createInput = (
+  configType,
+  configName,
+  placeholder,
+  defaultValue,
+  rules
+) => {
   return {
     elementType: "input",
     elementConfig: {
       type: configType,
-      name: configType,
+      name: configName,
       placeholder: placeholder,
     },
     value: defaultValue,
+    rules: {
+      ...rules,
+    },
+  };
+};
+
+export const createSelect = (
+  configName,
+  selectValues,
+  rules
+) => {
+  return {
+    elementType: "select",
+    elementConfig: {
+      name: configName,
+    },
+    value: selectValues,
     rules: {
       ...rules,
     },
