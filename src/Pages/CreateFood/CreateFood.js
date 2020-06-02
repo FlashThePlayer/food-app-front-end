@@ -12,14 +12,16 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/react-hooks";
 import { createFoodSchema } from "../../GraphQl/Schema/Schema";
 import SubmitButton from "../../UI/Button/SubmitButton/SubmitButton";
-import { authUser } from "../../Store/Actions/Index";
+import Modal from "../../UI/Modal/Modal";
 
 const CreateFood = (props) => {
   const { register, handleSubmit, errors } = useForm({ mode: "onBlur" });
-  const [createFood, { loading: createFoodLoading }] = useMutation(
-    createFoodSchema
-  );
+  const [
+    createFood,
+    { loading: createFoodLoading, data: foodData },
+  ] = useMutation(createFoodSchema);
   const [networkError, setNetworkError] = useState();
+  const [foodName, setFoodName] = useState();
   const [foodChips, setFoodChips] = useState([]);
 
   const formSchema = {
@@ -84,11 +86,33 @@ const CreateFood = (props) => {
           keywords: foodChips,
         },
       },
-    }).catch((error) => setNetworkError(error));
+    })
+      .then(({data}) => {
+        setFoodName(data.createFood.name);
+      })
+      .catch((error) => setNetworkError(error));
   };
+
+  const clearFoodNameHandler = () => {
+    setFoodName(null);
+    window.location.reload(true); // dunno if this is really good though, cant empty form state
+  };
+
+  let successFoodCreated = null;
+
+  if (foodName) {
+    successFoodCreated = (
+        <Modal show={foodName} modalClosed={clearFoodNameHandler}>
+          <p>
+            {foodName} was created successfully!
+          </p>
+        </Modal>
+    );
+  }
 
   return (
     <React.Fragment>
+      {successFoodCreated}
       <div className={classes.FoodForm}>
         <form onSubmit={handleSubmit(onSubmitHandler)}>
           {form}
