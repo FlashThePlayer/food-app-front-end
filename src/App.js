@@ -12,6 +12,7 @@ import defaultClient from "./GraphQl/ApolloClient";
 import { checkAuthState } from "./Store/Actions/Index";
 import Logout from "./Authentication/Logout/Logout";
 import CreateFood from "./Pages/CreateFood/CreateFood";
+import GetFoods from "./Pages/GetFoods/GetFoods";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -37,6 +38,7 @@ const App = (props) => {
         <Switch>
           <Route path="/logout" render={(props) => <Logout {...props} />} />
           <Route path="/createFood" render={(props) => <CreateFood {...props} />} />
+          <Route path="/getFoods" render={(props) => <GetFoods {...props} />} />
           <Route path="/" render={(props) => <HomePage {...props} />} />
           <Redirect to="/" />
         </Switch>

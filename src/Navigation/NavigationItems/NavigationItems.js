@@ -20,6 +20,7 @@ const NavigationItems = (props) => {
     navLinks = (
       <ul className={classes.NavigationItems}>
           <NavigationItem link="/">Home</NavigationItem>
+          <NavigationItem link="getFoods">your Food</NavigationItem>
           <NavigationItem link="createFood">create Food</NavigationItem>
           <NavigationItem link="logout">Logout</NavigationItem>
       </ul>
