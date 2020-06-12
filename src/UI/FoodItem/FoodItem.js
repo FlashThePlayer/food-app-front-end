@@ -4,7 +4,7 @@ import classes from "./FoodItem.module.css"
 
 const FoodItem = props => {
     return (
-        <div className={classes.FoodItem}>
+        <div key={props.id} className={classes.FoodItem}>
             <p>{props.name}</p>
             <p>{props.link}</p>
             <p>{props.favorite}</p>

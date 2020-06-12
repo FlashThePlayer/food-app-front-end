@@ -24,8 +24,8 @@ export const createFoodSchema = gql`
 `;
 
 export const getFoodsSchema = gql`
-  query getFoods($page: Int) {
-    getFoods(page: $page) {
+  query getFoods($page: Int, $query: foodQuery) {
+    getFoods(page: $page, query: $query) {
       foods {
         name
         link

@@ -29,6 +29,7 @@ const Input = (props) => {
       });
       inputElement = (
         <select {...props.elementConfig} defaultValue={props.defaultValue} ref={props.formReference}>
+          <option key={"default"} value={""}>select one</option>
           {selectOptions}
         </select>
       );
