@@ -1,3 +1,9 @@
+.Content {
+  grid-column: 2/3;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+}
+
 .Spinner {
   grid-column: 2/3;
   grid-row: 2/3;
@@ -5,7 +11,6 @@
 }
 
 .Pagination {
-  grid-column: 2/3;
   display: grid;
   grid-template-columns: 1fr 80% 1fr;
   grid-template-areas: "PrevButton PageButtons NextButton";
@@ -16,6 +21,12 @@
   text-decoration: none;
 }
 
+.QuerySearch {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-column: 1/2;
+}
+
 .QueryForm {
   margin: 20px auto;
   padding: 20px 0px 20px 0px;
@@ -23,7 +34,6 @@
   text-align: center;
   border: 1px solid #eee;
   box-shadow: 0 2px 3px #ccc;
-  grid-column: 1/2;
 }
 
 .NoFoodBanner {
@@ -33,10 +43,12 @@
 
 .PrevButton {
   grid-area: PrevButton;
+  height: 25px;
 }
 
 .NextButton {
   grid-area: NextButton;
+  height: 25px;
 }
 
 .PageButton {

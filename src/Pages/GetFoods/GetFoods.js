@@ -122,14 +122,16 @@ const GetFoods = (props) => {
 
   return (
     <React.Fragment>
-      <div className={classes.QueryForm}>
-        <form onSubmit={handleSubmit(onSubmitHandler)}>
+      <div className={classes.QuerySearch}>
+        <form className={classes.QueryForm} onSubmit={handleSubmit(onSubmitHandler)}>
           {queryForm}
           <SubmitButton>Search</SubmitButton>
         </form>
       </div>
-      {foodList}
-      {pages}
+      <div className={classes.Content}>
+        {foodList}
+        {pages}
+      </div>
     </React.Fragment>
   );
 };
