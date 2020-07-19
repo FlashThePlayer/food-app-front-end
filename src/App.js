@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect } from "react";
 import { Route, Switch, withRouter, Redirect } from "react-router-dom";
-import { ApolloProvider } from "@apollo/react-hooks";
+import { ApolloProvider } from "@apollo/client";
 import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
 

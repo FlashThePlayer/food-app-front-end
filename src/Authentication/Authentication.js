@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { useLazyQuery } from "@apollo/client";
 import { getFoodsSchema } from "../../GraphQl/Schema/Schema";
 import classes from "../GetFoods/GetFoods.module.css";
 import Spinner from "../../UI/Spinner/Spinner";

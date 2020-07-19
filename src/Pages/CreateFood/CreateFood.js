@@ -9,7 +9,7 @@ import Spinner from "../../UI/Spinner/Spinner";
 import Input from "../../UI/Input/Input";
 import ChipInput from "material-ui-chip-input";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/client";
 import { createFoodSchema } from "../../GraphQl/Schema/Schema";
 import SubmitButton from "../../UI/Button/SubmitButton/SubmitButton";
 import Modal from "../../UI/Modal/Modal";
