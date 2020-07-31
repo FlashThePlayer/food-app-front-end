@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
 import classes from "./Authentication.module.css";
-import Input from "../UI/Input/Input";
 import Modal from "../UI/Modal/Modal";
 import ToggleButton from "../UI/Button/ToggleButton/ToggleButton";
 import SubmitButton from "../UI/Button/SubmitButton/SubmitButton";
@@ -15,6 +14,7 @@ import createFormFields, {
 } from "../Shared/createFormFields";
 import { createUserSchema, loginUserSchema } from "../GraphQl/Schema/Schema";
 import { authUser } from "../Store/Actions/Index";
+import {createQueryFormFromSchema} from "../Shared/createQueryFormFromSchema";
 
 const Authentication = (props) => {
   const dispatch = useDispatch();
@@ -52,26 +52,7 @@ const Authentication = (props) => {
 
   let formSchema = isSignUp ? signUpSchema : signInSchema;
 
-  const formElementArray = [];
-  for (let key in formSchema) {
-    formElementArray.push({
-      id: key,
-      config: formSchema[key],
-    });
-  }
-
-  let form = formElementArray.map((element) => {
-    return (
-      <Input
-        formReference={register(element.config.rules)}
-        key={element.id}
-        label={element.id}
-        elementType={element.config.elementType}
-        error={errors[element.id]}
-        elementConfig={element.config.elementConfig}
-      />
-    );
-  });
+  const form = createQueryFormFromSchema(formSchema, errors, register)
 
   const onSubmitHandler = ({ email, password, name }) => {
     if (isSignUp) {

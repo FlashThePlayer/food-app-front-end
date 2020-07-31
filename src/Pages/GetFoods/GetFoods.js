@@ -7,8 +7,8 @@ import FoodItem from "../../UI/FoodItem/FoodItem";
 import Pageination from "../../UI/Pageniation/Pageination";
 import { useForm } from "react-hook-form";
 import createInput, { createSelect } from "../../Shared/createFormFields";
-import Input from "../../UI/Input/Input";
 import SubmitButton from "../../UI/Button/SubmitButton/SubmitButton";
+import {createQueryFormFromSchema} from "../../Shared/createQueryFormFromSchema";
 
 const GetFoods = (props) => {
   const { register, handleSubmit, errors } = useForm({ mode: "onBlur" });
@@ -36,27 +36,7 @@ const GetFoods = (props) => {
     difficulty: createSelect("difficulty", ["easy", "normal", "hard"], {}),
   };
 
-  const formElementArray = [];
-  for (let key in queryFormSchema) {
-    formElementArray.push({
-      id: key,
-      config: queryFormSchema[key],
-    });
-  }
-
-  let queryForm = formElementArray.map((element) => {
-    return (
-      <Input
-        formReference={register(element.config.rules)}
-        key={element.id}
-        label={element.id}
-        elementType={element.config.elementType}
-        error={errors[element.id]}
-        elementConfig={element.config.elementConfig}
-        value={element.config.value}
-      />
-    );
-  });
+  let queryForm = createQueryFormFromSchema(queryFormSchema, errors, register)
 
   const onSubmitHandler = ({ foodName, favorite, rating, difficulty }) => {
     getFoods({
