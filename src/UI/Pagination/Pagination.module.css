@@ -1,0 +1,41 @@
+.Pagination {
+    display: grid;
+    grid-template-columns: 1fr 80% 1fr;
+    grid-template-areas: "PrevButton PageButtons NextButton";
+    justify-content: center;
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+.PrevButton {
+    grid-area: PrevButton;
+    height: 25px;
+}
+
+.NextButton {
+    grid-area: NextButton;
+    height: 25px;
+}
+
+.PageButton {
+    grid-area: PageButtons;
+    justify-self: center;
+}
+
+.Pagination button {
+    border: none;
+    background: none;
+}
+
+.Pagination button.active {
+    background-color: #0025af;
+    color: white;
+    border: none;
+}
+
+.Pagination button:hover:not(.active) {
+    background-color: #ddd;
+    border: none;
+}

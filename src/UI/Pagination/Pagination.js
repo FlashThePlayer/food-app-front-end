@@ -1,7 +1,7 @@
 import React from "react";
-import classes from "../../Pages/GetFoods/GetFoods.module.css";
+import classes from "./Pagination.module.css";
 
-const Pageination = (props) => {
+const Pagination = (props) => {
 
     const totalPages = props.maxPages;
     const page = props.currentPage;
@@ -79,4 +79,4 @@ const Pageination = (props) => {
   );
 };
 
-export default Pageination;
+export default Pagination;
