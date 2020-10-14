@@ -1,0 +1,12 @@
+.Content {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.Spinner {
+    justify-self: center;
+}
+
+.NoFoodBanner {
+    text-align: center;
+}

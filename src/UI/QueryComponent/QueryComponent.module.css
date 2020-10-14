@@ -1,0 +1,35 @@
+.QueryForm {
+    margin: 20px auto;
+    padding: 20px 0 20px 0;
+    width: 65%;
+    text-align: center;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 3px #ccc;
+}
+
+.input[type=text] {
+    border-radius: 20px;
+    border: 1px solid #2d9fd9;
+    color: #2d9fd9;
+    width: 250px;
+    height: 30px;
+    padding-left: 10px;
+}
+
+.input[type=text]:focus {
+    outline: none;
+}
+
+.expandedQuery {
+    border-radius: 20px;
+}
+
+.expandedQueryOpen{
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.expandedQueryClose {
+    opacity: 0;
+    transform: translateX(-100%);
+}
