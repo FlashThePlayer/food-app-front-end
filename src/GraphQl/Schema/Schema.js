@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const createUserSchema = gql`
   mutation createUser($userInput: createUserInputData) {
@@ -38,19 +38,22 @@ export const getFoodsSchema = gql`
   }
 `;
 
-export const getDaysSchema = gql `
-    query getDays($date: String) {
-        getDays(date: $date) {
-            days {
-                date
-                meals
-            }
-        }
+export const getDaysSchema = gql`
+  query getDays($date: String!) {
+    getDays(date: $date) {
+      meals {
+        name
+      }
+      date
     }
-`
+  }
+`;
 
-// export const createDaySchema = gql `
-//     query createDays($dayInput: [createDayInputData]) {
-//         createDays()
-//     }
-// `
+
+export const createDaysSchema = gql`
+  query createDays($dayInput: [createDayInputData!]) {
+    createDays(dayInput: $dayInput) {
+      success
+    }
+  }
+`;
