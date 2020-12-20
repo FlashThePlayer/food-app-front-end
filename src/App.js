@@ -11,6 +11,7 @@ import Authentication from "./Authentication/Authentication";
 import defaultClient from "./GraphQl/ApolloClient";
 import { checkAuthState } from "./Store/Actions/Index";
 import Logout from "./Authentication/Logout/Logout";
+import Days from "./Pages/Days/Days";
 import CreateFood from "./Pages/CreateFood/CreateFood";
 import GetFoods from "./Pages/GetFoods/GetFoods";
 
@@ -37,6 +38,7 @@ const App = (props) => {
     routes = (
         <Switch>
           <Route path="/logout" render={(props) => <Logout {...props} />} />
+          <Route path="/days" render={(props) => <Days {...props} />} />
           <Route path="/createFood" render={(props) => <CreateFood {...props} />} />
           <Route path="/getFoods" render={(props) => <GetFoods {...props} />} />
           <Route path="/" render={(props) => <HomePage {...props} />} />
