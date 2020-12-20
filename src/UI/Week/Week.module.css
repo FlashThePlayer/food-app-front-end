@@ -1,0 +1,24 @@
+.PointInTime {
+  grid-area: pointInTime;
+  display: flex;
+}
+
+.PointInTime p {
+  margin: auto;
+  font-size: 25px;
+}
+
+.Week {
+  height: 80%;
+  display: grid;
+  grid-template-rows: 3% 85%;
+  grid-template-areas:
+    "pointInTime"
+    "days";
+}
+
+.Days {
+  grid-area: days;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
