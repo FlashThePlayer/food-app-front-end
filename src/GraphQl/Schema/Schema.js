@@ -43,12 +43,15 @@ export const getDaysSchema = gql`
     getDays(date: $date) {
       meals {
         name
+        link
+        favorite
+        rating
+        difficulty
       }
       date
     }
   }
 `;
-
 
 export const createDaysSchema = gql`
   query createDays($dayInput: [createDayInputData!]) {
