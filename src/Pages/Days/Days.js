@@ -9,33 +9,35 @@ import {
 } from "../../GraphQl/Schema/Schema";
 import QueryComponent from "../../UI/QueryComponent/QueryComponent";
 import FoodSelection from "../../UI/FoodSelection/FoodSelection";
-import {pageIncrement, pageDecrement, totalPages} from "../../Context/Actions";
+import {
+  pageIncrement,
+  pageDecrement,
+  totalPages,
+} from "../../Context/Actions";
 import { pageReducer } from "../../Context/Reducer";
+import Week from "../../UI/Week/Week";
 
 const Days = (props) => {
-  const [
-    getDays,
-    { loading: getDaysIsLoading, data: getDaysData },
-  ] = useLazyQuery(getDaysSchema);
-  const [
-    createDays,
-    { loading: createDaysIsLoading, data: createDaysData },
-  ] = useLazyQuery(createDaysSchema);
-  const [
-    getFoods,
-    { loading: getFoodsIsLoading, data: getFoodsData },
-  ] = useLazyQuery(getFoodsSchema);
+  const [ getDays, { loading: getDaysIsLoading, data: getDaysData}] = useLazyQuery(getDaysSchema);
+  const [ createDays, { loading: createDaysIsLoading, data: createDaysData }] = useLazyQuery(createDaysSchema);
+  const [ getFoods, { loading: getFoodsIsLoading, data: getFoodsData,  }] = useLazyQuery(getFoodsSchema);
 
   const [pageState, dispatch] = useReducer(pageReducer, {
     page: 1,
     totalPages: 1,
   });
 
+  const [dateState, setDateState] = useState(new Date())
+  const [dayState, setDayState] = useState({days: [], date: dateState})
   const [foodArray, setFoodArray] = useState([]);
 
   useEffect(() => {
+    getDays({ variables: { date: dateState }});
+  }, [dateState, getDays])
+
+  useEffect(() => {
     getFoods({ variables: { page: pageState.page } });
-  }, [pageState.page, getFoods]);
+  }, [getFoods, pageState.page]);
 
   useEffect(() => {
     if (getFoodsData) {
@@ -43,6 +45,12 @@ const Days = (props) => {
       dispatch(totalPages(getFoodsData.getFoods.totalPages));
     }
   }, [setFoodArray, dispatch, getFoodsData]);
+
+  useEffect(() => {
+    if(getDaysData){
+      setDayState({days: getDaysData.getDays, date: dateState})
+    }
+  }, [dateState, getDaysData])
 
   const onSubmitHandler = ({ foodName, favorite, rating, difficulty }) => {
     getFoods({
@@ -69,9 +77,14 @@ const Days = (props) => {
           prevPageHandler={() => dispatch(pageDecrement())}
           nextPageHandler={() => dispatch(pageIncrement())}
         />
-        <div></div>
       </div>
-      <div className={classes.DaysSection}></div>
+      <div className={classes.DaysSection}>
+        <Week
+            year={dayState.date.getFullYear()}
+            month={dayState.date.toLocaleString("default", {month: "long"})}
+            loading={getDaysIsLoading}
+            days={dayState.days}  />
+      </div>
     </React.Fragment>
   );
 };
