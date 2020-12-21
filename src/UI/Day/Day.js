@@ -2,6 +2,7 @@ import React from "react";
 
 import classes from "./Day.module.css";
 import FoodItem from "../FoodItem/FoodItem";
+import { Droppable } from "react-beautiful-dnd";
 
 const Day = ({ id, food, date }) => {
   const dayName = _getDayName(date, "en-EN");
@@ -21,10 +22,15 @@ const Day = ({ id, food, date }) => {
   });
 
   return (
-    <div key={id} className={classes.Day}>
-      <p>{dayName}</p>
-      {foodList}
-    </div>
+    <Droppable droppableId={"droppableDay-" + id}>
+      {(provided) => (
+        <div ref={provided.innerRef} {...provided.droppableProps} key={id} className={classes.Day}>
+          <p>{dayName}</p>
+            {foodList}
+            {provided.placeholder}
+        </div>
+      )}
+    </Droppable>
   );
 };
 
