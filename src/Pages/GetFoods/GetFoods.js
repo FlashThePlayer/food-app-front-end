@@ -4,6 +4,7 @@ import { getFoodsSchema } from "../../GraphQl/Schema/Schema";
 import classes from "../GetFoods/GetFoods.module.css";
 import FoodSelection from "../../UI/FoodSelection/FoodSelection";
 import QueryComponent from "../../UI/QueryComponent/QueryComponent";
+import {DragDropContext} from "react-beautiful-dnd";
 
 import {
   pageDecrement,
@@ -46,21 +47,27 @@ const GetFoods = () => {
     });
   };
 
+  const onDragEndHandler = () => {
+
+  }
+
   return (
     <React.Fragment>
       <div className={classes.QuerySearch}>
         <QueryComponent submitHandler={onSubmitHandler} />
       </div>
-      <div className={classes.Content}>
-        <FoodSelection
-          loading={loading}
-          foods={foodArray}
-          page={pageState.page}
-          totalPages={pageState.totalPages}
-          prevPageHandler={() => dispatch(pageDecrement())}
-          nextPageHandler={() => dispatch(pageIncrement())}
-        />
-      </div>
+      <DragDropContext onDragEnd={onDragEndHandler}>
+        <div className={classes.Content}>
+          <FoodSelection
+              loading={loading}
+              foods={foodArray}
+              page={pageState.page}
+              totalPages={pageState.totalPages}
+              prevPageHandler={() => dispatch(pageDecrement())}
+              nextPageHandler={() => dispatch(pageIncrement())}
+          />
+        </div>
+      </DragDropContext>
     </React.Fragment>
   );
 };
