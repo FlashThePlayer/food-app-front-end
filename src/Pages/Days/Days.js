@@ -112,7 +112,7 @@ const Days = (props) => {
     <React.Fragment>
       <DragDropContext onDragEnd={onFoodDragEndHandler}>
         <div className={classes.FoodSection}>
-          <QueryComponent submitHandler={onSubmitHandler}></QueryComponent>
+          <QueryComponent submitHandler={onSubmitHandler}/>
           <FoodSelection
             loading={getFoodsIsLoading}
             foods={foodArray}
