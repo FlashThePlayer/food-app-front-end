@@ -11,9 +11,10 @@ const Day = ({ id, food, date }) => {
   foodList = food.map((food, index) => {
     return (
       <FoodItem
+        small={true}
         id={food._id}
         index={index}
-        draggableId={"dayDraggable-"+food._id}
+        draggableId={"dayDraggable-" + food._id}
         name={food.name}
         link={food.link}
         favorite={food.favorite}
@@ -26,10 +27,15 @@ const Day = ({ id, food, date }) => {
   return (
     <Droppable droppableId={"droppableDay-" + id}>
       {(provided) => (
-        <div ref={provided.innerRef} {...provided.droppableProps} key={id} className={classes.Day}>
+        <div
+          ref={provided.innerRef}
+          {...provided.droppableProps}
+          key={id}
+          className={classes.Day}
+        >
           <p>{dayName}</p>
-            {foodList}
-            {provided.placeholder}
+          {foodList}
+          {provided.placeholder}
         </div>
       )}
     </Droppable>
