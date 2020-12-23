@@ -27,6 +27,7 @@ export const getFoodsSchema = gql`
   query getFoods($page: Int, $query: foodQuery) {
     getFoods(page: $page, query: $query) {
       foods {
+        _id
         name
         link
         favorite
@@ -42,6 +43,7 @@ export const getDaysSchema = gql`
   query getDays($date: String!) {
     getDays(date: $date) {
       meals {
+        _id
         name
         link
         favorite
@@ -53,10 +55,18 @@ export const getDaysSchema = gql`
   }
 `;
 
-export const createDaysSchema = gql`
-  query createDays($dayInput: [createDayInputData!]) {
-    createDays(dayInput: $dayInput) {
-      success
+export const createDaySchema = gql`
+  mutation createDay($dayInput: DayInputData!) {
+    createDay(dayInput: $dayInput) {
+      meals {
+        _id
+        name
+        link
+        favorite
+        rating
+        difficulty
+      }
+      date
     }
   }
 `;
