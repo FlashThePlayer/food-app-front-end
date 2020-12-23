@@ -1,10 +1,10 @@
 import React, { useEffect, useReducer, useState } from "react";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 
 import classes from "./Days.module.css";
 import {
   getDaysSchema,
-  createDaysSchema,
+  createDaySchema,
   getFoodsSchema,
 } from "../../GraphQl/Schema/Schema";
 import QueryComponent from "../../UI/QueryComponent/QueryComponent";
@@ -24,9 +24,9 @@ const Days = (props) => {
     { loading: getDaysIsLoading, data: getDaysData },
   ] = useLazyQuery(getDaysSchema);
   const [
-    createDays,
-    { loading: createDaysIsLoading, data: createDaysData },
-  ] = useLazyQuery(createDaysSchema);
+    createDay,
+    { loading: createDayIsLoading, data: createDayData, error: createDayError },
+  ] = useMutation(createDaySchema);
   const [
     getFoods,
     { loading: getFoodsIsLoading, data: getFoodsData },
@@ -38,7 +38,7 @@ const Days = (props) => {
   });
 
   const [dateState, setDateState] = useState(new Date());
-  const [dayState, setDayState] = useState({ days: [], date: dateState });
+  const [weekState, setWeekState] = useState({ days: [], date: dateState });
   const [foodArray, setFoodArray] = useState([]);
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const Days = (props) => {
 
   useEffect(() => {
     if (getDaysData) {
-      setDayState({ days: getDaysData.getDays, date: dateState });
+      setWeekState({ days: getDaysData.getDays, date: dateState });
     }
   }, [dateState, getDaysData]);
 
@@ -75,8 +75,37 @@ const Days = (props) => {
     });
   };
 
-  const onFoodDragEndHandler = () => {
-    console.log("jep worked");
+  const onFoodDragEndHandler = ({ draggableId, source, destination }) => {
+    if (
+      source.droppableId.startsWith("droppableFood") &&
+      destination.droppableId.startsWith("droppableDay")
+    ) {
+      const foodId = draggableId.replace("foodSelectionDraggable-", "");
+      const dayNumber = destination.droppableId.replace("droppableDay-", "");
+      const dayDate = weekState.days[dayNumber].date;
+      createDay({
+        variables: {
+          dayInput: {
+            date: dayDate,
+            foodId: foodId,
+          },
+        },
+      })
+        .then(({ data }) => {
+          setWeekState((prevState) => {
+            const dayArray = [...prevState.days];
+            const replaceIndex = dayArray.findIndex(
+              (day) => day.date === data.createDay.date
+            );
+            dayArray[replaceIndex] = {
+              meals: data.createDay.meals,
+              date: data.createDay.date,
+            };
+            return { days: dayArray, date: dateState };
+          });
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   return (
@@ -95,10 +124,10 @@ const Days = (props) => {
         </div>
         <div className={classes.DaysSection}>
           <Week
-            year={dayState.date.getFullYear()}
-            month={dayState.date.toLocaleString("default", { month: "long" })}
+            year={weekState.date.getFullYear()}
+            month={weekState.date.toLocaleString("default", { month: "long" })}
             loading={getDaysIsLoading}
-            days={dayState.days}
+            days={weekState.days}
           />
         </div>
       </DragDropContext>
