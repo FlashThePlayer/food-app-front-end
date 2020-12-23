@@ -7,3 +7,14 @@
     box-shadow: 0 2px 3px #ccc;
     background-color: #FFFFFF;
 }
+
+.SmallFoodItem {
+    margin: 10px auto;
+    padding: 10px 0px 10px 0px;
+    width: 50%;
+    text-align: center;
+    border: 1px solid #eee;
+    box-shadow: 0 1px 2px #ccc;
+    background-color: #FFFFFF;
+    word-wrap: break-word;
+}
