@@ -1,0 +1,23 @@
+.DateForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 10%;
+  position: relative;
+}
+
+.DateForm label{
+  text-align: center;
+}
+
+.SubmitButton {
+  position: absolute;
+  bottom: 0;
+  grid-column: 4/5;
+  height: 35px;
+  margin: 0 0 25% 0;
+  background: #fc6e51;
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: bold;
+  text-transform: uppercase;
+  box-shadow: 0 0 12px -2px rgba(0, 0, 0, 0.5);
+}
