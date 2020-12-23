@@ -17,12 +17,13 @@ import {
 import { pageReducer } from "../../Context/Reducer";
 import Week from "../../UI/Week/Week";
 import { DragDropContext } from "react-beautiful-dnd";
+import DateForm from "../../UI/DateForm/DateForm";
 
 const Days = (props) => {
   const [
     getDays,
     { loading: getDaysIsLoading, data: getDaysData },
-  ] = useLazyQuery(getDaysSchema);
+  ] = useLazyQuery(getDaysSchema, {fetchPolicy: "cache-and-network"});
   const [
     createDay,
     { loading: createDayIsLoading, data: createDayData, error: createDayError },
@@ -30,7 +31,7 @@ const Days = (props) => {
   const [
     getFoods,
     { loading: getFoodsIsLoading, data: getFoodsData },
-  ] = useLazyQuery(getFoodsSchema);
+  ] = useLazyQuery(getFoodsSchema, {fetchPolicy: "cache-and-network"});
 
   const [pageState, dispatch] = useReducer(pageReducer, {
     page: 1,
@@ -62,7 +63,7 @@ const Days = (props) => {
     }
   }, [dateState, getDaysData]);
 
-  const onSubmitHandler = ({ foodName, favorite, rating, difficulty }) => {
+  const onQuerySubmitHandler = ({ foodName, favorite, rating, difficulty }) => {
     getFoods({
       variables: {
         query: {
@@ -74,6 +75,11 @@ const Days = (props) => {
       },
     });
   };
+
+  const onDateSubmitHandler = ({year, month, day}) => {
+    const date = new Date(`${year}-${month}-${day}`);
+    setDateState(date)
+  }
 
   const onFoodDragEndHandler = ({ draggableId, source, destination }) => {
     if (
@@ -112,7 +118,8 @@ const Days = (props) => {
     <React.Fragment>
       <DragDropContext onDragEnd={onFoodDragEndHandler}>
         <div className={classes.FoodSection}>
-          <QueryComponent submitHandler={onSubmitHandler}/>
+          <DateForm submitHandler={onDateSubmitHandler} year={dateState.getFullYear()} month={dateState.getMonth()+1} day={dateState.getDate()}/>
+          <QueryComponent submitHandler={onQuerySubmitHandler}/>
           <FoodSelection
             loading={getFoodsIsLoading}
             foods={foodArray}
