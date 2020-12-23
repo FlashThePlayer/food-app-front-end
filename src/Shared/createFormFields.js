@@ -19,11 +19,7 @@ const createInput = (
   };
 };
 
-export const createSelect = (
-  configName,
-  selectValues,
-  rules
-) => {
+export const createSelect = (configName, selectValues, rules) => {
   return {
     elementType: "select",
     elementConfig: {
@@ -44,6 +40,21 @@ export const defaultRules = {
 
 export const patternRules = (type) => {
   switch (type) {
+    case "year":
+      return {
+        value: /^(19|20)\d{2}$/,
+        message: "Please use a year between 1900-2099",
+      };
+    case "month":
+      return {
+        value: /^(1[0-2]|[1-9])$/,
+        message: "Please use a month between 1-12",
+      };
+    case "day":
+      return {
+        value: /^(3[0-1]|2[0-9]|1[0-9]|[1-9])$/,
+        message: "Please use a day between 1-31",
+      };
     case "email":
       return {
         value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
