@@ -9,9 +9,7 @@ const Week = ({ id, year, month, days, loading }) => {
 
   if (loading) {
     dayList = (
-      <div>
         <Spinner />
-      </div>
     );
   } else {
       dayList = days.map((day, index) => {
