@@ -9,7 +9,7 @@ const Week = ({ id, year, month, days, loading }) => {
 
   if (loading) {
     dayList = (
-      <div className={classes.Spinner}>
+      <div>
         <Spinner />
       </div>
     );
