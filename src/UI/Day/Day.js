@@ -11,7 +11,9 @@ const Day = ({ id, food, date }) => {
   foodList = food.map((food, index) => {
     return (
       <FoodItem
-        id={index}
+        id={food._id}
+        index={index}
+        draggableId={"dayDraggable-"+food._id}
         name={food.name}
         link={food.link}
         favorite={food.favorite}

@@ -6,8 +6,8 @@ import { Draggable } from "react-beautiful-dnd";
 const FoodItem = (props) => {
   return (
     <Draggable
-      draggableId={"foodItem-" + props.id}
-      index={props.id}
+      draggableId={props.draggableId}
+      index={props.index}
       key={props.id}
     >
       {(provided) => (
