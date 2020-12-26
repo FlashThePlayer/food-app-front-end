@@ -55,25 +55,9 @@ export const getDaysSchema = gql`
   }
 `;
 
-export const createDaySchema = gql`
-  mutation createDay($dayInput: DayInputData!) {
-    createDay(dayInput: $dayInput) {
-      meals {
-        _id
-        name
-        link
-        favorite
-        rating
-        difficulty
-      }
-      date
-    }
-  }
-`;
-
-export const deleteFoodFromDaySchema = gql`
-  mutation deleteFoodFromDay($dayInput: DayInputData!) {
-    deleteFoodFromDay(dayInput: $dayInput) {
+export const patchDaySchema = gql`
+  mutation patchDay($dayInput: DayInputData!) {
+    patchDay(dayInput: $dayInput) {
       meals {
         _id
         name
