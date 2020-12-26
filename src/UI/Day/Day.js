@@ -14,7 +14,7 @@ const Day = ({ id, food, date }) => {
         small={true}
         id={food._id}
         index={index}
-        draggableId={"dayDraggable-" + food._id}
+        draggableId={`dayDraggable-${dayName}-${index}-${food._id}`}
         name={food.name}
         link={food.link}
         favorite={food.favorite}
