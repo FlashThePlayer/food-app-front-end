@@ -4,8 +4,7 @@ import { useLazyQuery, useMutation } from "@apollo/client";
 import classes from "./Days.module.css";
 import {
   getDaysSchema,
-  createDaySchema,
-  deleteFoodFromDaySchema,
+  patchDaySchema,
   getFoodsSchema,
 } from "../../GraphQl/Schema/Schema";
 import QueryComponent from "../../UI/QueryComponent/QueryComponent";
@@ -20,9 +19,10 @@ import Week from "../../UI/Week/Week";
 import { DragDropContext } from "react-beautiful-dnd";
 import DateForm from "../../UI/DateForm/DateForm";
 
+import { moveInArray } from "../../Shared/util";
+
 const Days = (props) => {
-  const [createDay] = useMutation(createDaySchema);
-  const [deleteDay] = useMutation(deleteFoodFromDaySchema);
+  const [patchDay] = useMutation(patchDaySchema);
   const [
     getDays,
     { loading: getDaysIsLoading, data: getDaysData },
@@ -58,7 +58,8 @@ const Days = (props) => {
 
   useEffect(() => {
     if (getDaysData) {
-      setWeekState({ days: getDaysData.getDays, date: dateState });
+      const days = _populateDaysWithData(getDaysData.getDays);
+      setWeekState({ days: days, date: dateState });
     }
   }, [dateState, getDaysData]);
 
@@ -81,45 +82,19 @@ const Days = (props) => {
   };
 
   const onFoodDragEndHandler = ({ source, destination }) => {
-    if (source.droppableId.startsWith("droppableDay") && destination == null) {
-      const dayInput = _getDayInputForDeleteDay(source, weekState.days);
-      deleteDay({
-        variables: {
-          dayInput: dayInput,
-        },
+    const dayInput = _handlePatchDay(source, destination, foodArray, weekState.days);
+    patchDay(dayInput)
+      .then(({ data }) => {
+        setWeekState((prevState) => {
+          const dayArray = [...prevState.days];
+          const updatedDayArray = _updateDayArrayWithReturnedDay(
+            data.patchDay,
+            dayArray
+          );
+          return { days: updatedDayArray, date: dateState };
+        });
       })
-        .then(({ data }) => {
-          setWeekState((prevState) => {
-            const dayArray = [...prevState.days];
-            return _handleReturnedDay(data.deleteFoodFromDay, dayArray, dateState);
-          });
-        })
-        .catch((err) => console.log(err));
-    }
-
-    if (
-      source.droppableId.startsWith("droppableFood") &&
-      destination.droppableId.startsWith("droppableDay")
-    ) {
-      const dayInput = _getDayInputForCreateDay(
-        source,
-        destination,
-        foodArray,
-        weekState.days
-      );
-      createDay({
-        variables: {
-          dayInput: dayInput,
-        },
-      })
-        .then(({ data }) => {
-          setWeekState((prevState) => {
-            const dayArray = [...prevState.days];
-            return _handleReturnedDay(data.createDay, dayArray, dateState);
-          });
-        })
-        .catch((err) => console.log(err));
-    }
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -155,39 +130,105 @@ const Days = (props) => {
   );
 };
 
-const _getDayInputForCreateDay = (source, destination, foods, days) => {
+const _handlePatchDay = (source, destination, foods, days) => {
+  const whichCase = _checkWhichCase(source, destination);
+
+  switch (whichCase) {
+    case "ADD":
+      return _addFoodToDay(source, destination, foods, days);
+    case "DELETE":
+      return _deleteFoodFromDay(source, days);
+    case "REORDER":
+      return _reorderFoodFromDay(source, destination, days);
+  }
+};
+
+const _addFoodToDay = (source, destination, foods, days) => {
   const foodIndex = source.index;
-  const dayIndex = destination.droppableId.replace("droppableDay-", "");
-  return _createDayInputFromIndexAndArray(foodIndex, foods, dayIndex, days);
+  const day = days.find((day) => day.droppableId === destination.droppableId);
+  const foodId = foods[foodIndex]._id;
+  const foodIds = day.meals.map((food) => food._id);
+  foodIds.push(foodId);
+  return _createPatchDayInput(day.date, foodIds);
 };
 
-const _getDayInputForDeleteDay = (source, days) => {
+const _deleteFoodFromDay = (source, days) => {
   const foodIndex = source.index;
-  const dayIndex = source.droppableId.replace("droppableDay-", "");
-  const dayDate = days[dayIndex].date;
-  const day = days.find((day) => day.date === dayDate);
-  return _createDayInputFromIndexAndArray(foodIndex, day.meals, dayIndex, days);
+  const day = days.find((day) => day.droppableId === source.droppableId);
+  const foodIds = day.meals.map((food, index) => {
+      if (index !== foodIndex) {
+        return food._id;
+      }
+  }).filter((el) => el != null);
+  return _createPatchDayInput(day.date, foodIds);
 };
 
-const _createDayInputFromIndexAndArray = (
-  foodIndex,
-  foodArray,
-  dayIndex,
-  dayArray
-) => {
-  const foodId = foodArray[foodIndex]._id;
-  const dayDate = dayArray[dayIndex].date;
-
-  return { date: dayDate, foodId: foodId };
+const _reorderFoodFromDay = (source, destination, days) => {
+  const foodStartIndex = source.index;
+  const foodEndIndex = destination.index;
+  const day = days.find((day) => day.droppableId === source.droppableId);
+  const meals = moveInArray(day.meals, foodStartIndex, foodEndIndex);
+  const foodIds = meals.map((food) => food._id);
+  return _createPatchDayInput(day.date, foodIds);
 };
 
-const _handleReturnedDay = (dayData, dayArray, date) => {
+const _createPatchDayInput = (date, foodIds) => {
+  return {
+    variables: {
+      dayInput: { date: date, foodId: foodIds },
+    },
+  };
+};
+
+const _checkWhichCase = (source, destination) => {
+  if (source.droppableId.startsWith("droppableDay") && destination == null) {
+    return "DELETE";
+  }
+  if (
+    source.droppableId.startsWith("droppableFood") &&
+    destination.droppableId.startsWith("droppableDay")
+  ) {
+    return "ADD";
+  }
+  if (
+    source.droppableId !== destination.droppableId &&
+    source.droppableId.startsWith("droppableDay") &&
+    destination.droppableId.startsWith("droppableDay")
+  ) {
+    return "MOVE_BETWEEN_DAYS"
+  }
+
+  if (source.droppableId === destination.droppableId) {
+    return "REORDER";
+  }
+};
+
+const _updateDayArrayWithReturnedDay = (dayData, dayArray) => {
   const replaceIndex = dayArray.findIndex((day) => day.date === dayData.date);
+  const dayName = _getDayName(dayData.date, "en-EN");
   dayArray[replaceIndex] = {
     meals: dayData.meals,
     date: dayData.date,
+    dayName: dayName,
+    droppableId: `droppableDay-${dayName}`,
   };
-  return { days: dayArray, date: date };
+  return [...dayArray];
+};
+
+const _populateDaysWithData = (dayData) => {
+  return dayData.map((day) => {
+    const dayName = _getDayName(day.date, "en-EN");
+    return {
+      ...day,
+      dayName: dayName,
+      droppableId: `droppableDay-${dayName}`,
+    };
+  });
+};
+
+const _getDayName = (dateString, locale) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString(locale, { weekday: "long" });
 };
 
 export default Days;
