@@ -13,7 +13,7 @@ const Week = ({ id, year, month, days, loading }) => {
     );
   } else {
       dayList = days.map((day, index) => {
-          return (<Day id={index} food={day.meals} date={day.date} />)
+          return (<Day dayName={day.dayName} droppableId={day.droppableId} id={index} food={day.meals} />)
       })
   }
 

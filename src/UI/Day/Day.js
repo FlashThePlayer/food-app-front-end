@@ -4,8 +4,7 @@ import classes from "./Day.module.css";
 import FoodItem from "../FoodItem/FoodItem";
 import { Droppable } from "react-beautiful-dnd";
 
-const Day = ({ id, food, date }) => {
-  const dayName = _getDayName(date, "en-EN");
+const Day = ({ id, food, dayName, droppableId }) => {
   let foodList;
 
   foodList = food.map((food, index) => {
@@ -25,7 +24,7 @@ const Day = ({ id, food, date }) => {
   });
 
   return (
-    <Droppable droppableId={"droppableDay-" + id}>
+    <Droppable droppableId={droppableId ? droppableId : "droppableDay-" + id}>
       {(provided) => (
         <div
           ref={provided.innerRef}
@@ -41,10 +40,4 @@ const Day = ({ id, food, date }) => {
     </Droppable>
   );
 };
-
-const _getDayName = (dateString, locale) => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString(locale, { weekday: "long" });
-};
-
 export default Day;
