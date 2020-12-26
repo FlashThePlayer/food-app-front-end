@@ -70,3 +70,19 @@ export const createDaySchema = gql`
     }
   }
 `;
+
+export const deleteFoodFromDaySchema = gql`
+  mutation deleteFoodFromDay($dayInput: DayInputData!) {
+    deleteFoodFromDay(dayInput: $dayInput) {
+      meals {
+        _id
+        name
+        link
+        favorite
+        rating
+        difficulty
+      }
+      date
+    }
+  }
+`;
