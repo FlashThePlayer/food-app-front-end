@@ -5,6 +5,7 @@ import classes from "./Days.module.css";
 import {
   getDaysSchema,
   createDaySchema,
+  deleteFoodFromDaySchema,
   getFoodsSchema,
 } from "../../GraphQl/Schema/Schema";
 import QueryComponent from "../../UI/QueryComponent/QueryComponent";
@@ -20,18 +21,16 @@ import { DragDropContext } from "react-beautiful-dnd";
 import DateForm from "../../UI/DateForm/DateForm";
 
 const Days = (props) => {
+  const [createDay] = useMutation(createDaySchema);
+  const [deleteDay] = useMutation(deleteFoodFromDaySchema);
   const [
     getDays,
     { loading: getDaysIsLoading, data: getDaysData },
-  ] = useLazyQuery(getDaysSchema, {fetchPolicy: "cache-and-network"});
-  const [
-    createDay,
-    { loading: createDayIsLoading, data: createDayData, error: createDayError },
-  ] = useMutation(createDaySchema);
+  ] = useLazyQuery(getDaysSchema, { fetchPolicy: "cache-and-network" });
   const [
     getFoods,
     { loading: getFoodsIsLoading, data: getFoodsData },
-  ] = useLazyQuery(getFoodsSchema, {fetchPolicy: "cache-and-network"});
+  ] = useLazyQuery(getFoodsSchema, { fetchPolicy: "cache-and-network" });
 
   const [pageState, dispatch] = useReducer(pageReducer, {
     page: 1,
@@ -76,38 +75,47 @@ const Days = (props) => {
     });
   };
 
-  const onDateSubmitHandler = ({year, month, day}) => {
+  const onDateSubmitHandler = ({ year, month, day }) => {
     const date = new Date(`${year}-${month}-${day}`);
-    setDateState(date)
-  }
+    setDateState(date);
+  };
 
-  const onFoodDragEndHandler = ({ draggableId, source, destination }) => {
-    if (
-      source.droppableId.startsWith("droppableFood") &&
-      destination.droppableId.startsWith("droppableDay")
-    ) {
-      const foodId = draggableId.replace("foodSelectionDraggable-", "");
-      const dayNumber = destination.droppableId.replace("droppableDay-", "");
-      const dayDate = weekState.days[dayNumber].date;
-      createDay({
+  const onFoodDragEndHandler = ({ source, destination }) => {
+    if (source.droppableId.startsWith("droppableDay") && destination == null) {
+      const dayInput = _getDayInputForDeleteDay(source, weekState.days);
+      deleteDay({
         variables: {
-          dayInput: {
-            date: dayDate,
-            foodId: foodId,
-          },
+          dayInput: dayInput,
         },
       })
         .then(({ data }) => {
           setWeekState((prevState) => {
             const dayArray = [...prevState.days];
-            const replaceIndex = dayArray.findIndex(
-              (day) => day.date === data.createDay.date
-            );
-            dayArray[replaceIndex] = {
-              meals: data.createDay.meals,
-              date: data.createDay.date,
-            };
-            return { days: dayArray, date: dateState };
+            return _handleReturnedDay(data.deleteFoodFromDay, dayArray, dateState);
+          });
+        })
+        .catch((err) => console.log(err));
+    }
+
+    if (
+      source.droppableId.startsWith("droppableFood") &&
+      destination.droppableId.startsWith("droppableDay")
+    ) {
+      const dayInput = _getDayInputForCreateDay(
+        source,
+        destination,
+        foodArray,
+        weekState.days
+      );
+      createDay({
+        variables: {
+          dayInput: dayInput,
+        },
+      })
+        .then(({ data }) => {
+          setWeekState((prevState) => {
+            const dayArray = [...prevState.days];
+            return _handleReturnedDay(data.createDay, dayArray, dateState);
           });
         })
         .catch((err) => console.log(err));
@@ -118,8 +126,13 @@ const Days = (props) => {
     <React.Fragment>
       <DragDropContext onDragEnd={onFoodDragEndHandler}>
         <div className={classes.FoodSection}>
-          <DateForm submitHandler={onDateSubmitHandler} year={dateState.getFullYear()} month={dateState.getMonth()+1} day={dateState.getDate()}/>
-          <QueryComponent submitHandler={onQuerySubmitHandler}/>
+          <DateForm
+            submitHandler={onDateSubmitHandler}
+            year={dateState.getFullYear()}
+            month={dateState.getMonth() + 1}
+            day={dateState.getDate()}
+          />
+          <QueryComponent submitHandler={onQuerySubmitHandler} />
           <FoodSelection
             loading={getFoodsIsLoading}
             foods={foodArray}
@@ -140,6 +153,41 @@ const Days = (props) => {
       </DragDropContext>
     </React.Fragment>
   );
+};
+
+const _getDayInputForCreateDay = (source, destination, foods, days) => {
+  const foodIndex = source.index;
+  const dayIndex = destination.droppableId.replace("droppableDay-", "");
+  return _createDayInputFromIndexAndArray(foodIndex, foods, dayIndex, days);
+};
+
+const _getDayInputForDeleteDay = (source, days) => {
+  const foodIndex = source.index;
+  const dayIndex = source.droppableId.replace("droppableDay-", "");
+  const dayDate = days[dayIndex].date;
+  const day = days.find((day) => day.date === dayDate);
+  return _createDayInputFromIndexAndArray(foodIndex, day.meals, dayIndex, days);
+};
+
+const _createDayInputFromIndexAndArray = (
+  foodIndex,
+  foodArray,
+  dayIndex,
+  dayArray
+) => {
+  const foodId = foodArray[foodIndex]._id;
+  const dayDate = dayArray[dayIndex].date;
+
+  return { date: dayDate, foodId: foodId };
+};
+
+const _handleReturnedDay = (dayData, dayArray, date) => {
+  const replaceIndex = dayArray.findIndex((day) => day.date === dayData.date);
+  dayArray[replaceIndex] = {
+    meals: dayData.meals,
+    date: dayData.date,
+  };
+  return { days: dayArray, date: date };
 };
 
 export default Days;
