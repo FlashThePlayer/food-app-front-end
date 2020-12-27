@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import classes from "./CreateFood.module.css";
 import createInput, {
+  createTextarea,
   defaultRules,
   createSelect,
 } from "../../Shared/createFormFields";
@@ -27,6 +28,8 @@ const CreateFood = (props) => {
   const formSchema = {
     name: createInput("", "foodName", "Name of the food", "", {}),
     link: createInput("", "foodLink", "link to the recipe", "", {}),
+    pictureLink: createInput("", "pictureLink", "link to the picture", "", {}),
+    textArea: createTextarea(5, 5, "recipe", "your recipe goes here", "", {}),
     favorite: createInput("checkbox", "favorite", "false", "", {}),
     stars: createInput("number", "rating", "", "1", {}),
     difficulty: createSelect("difficulty", ["easy", "normal", "hard"], {}),
@@ -68,22 +71,18 @@ const CreateFood = (props) => {
     );
   });
 
-  const onSubmitHandler = ({
-    foodName,
-    foodLink,
-    favorite,
-    rating,
-    difficulty,
-  }) => {
+  const onSubmitHandler = ({foodName, foodLink, pictureLink, favorite, rating, difficulty, recipe }) => {
     createFood({
       variables: {
         foodInput: {
           name: foodName,
           link: foodLink,
+          pictureLink: pictureLink,
           favorite: favorite,
           rating: parseInt(rating),
           difficulty: difficulty,
           keywords: foodChips,
+          recipe: recipe
         },
       },
     })
