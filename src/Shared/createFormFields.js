@@ -19,6 +19,22 @@ const createInput = (
   };
 };
 
+export const createTextarea = (cols, rows, configName, placeholder, defaultValue, rules ) => {
+  return {
+    elementType: "textarea",
+    elementConfig: {
+      name: configName,
+      placeholder: placeholder,
+      cols: cols,
+      rows: rows,
+    },
+    value: defaultValue,
+    rules: {
+      ...rules,
+    },
+  };
+}
+
 export const createSelect = (configName, selectValues, rules) => {
   return {
     elementType: "select",

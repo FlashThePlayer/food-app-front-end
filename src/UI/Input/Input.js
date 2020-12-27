@@ -23,13 +23,32 @@ const Input = (props) => {
         />
       );
       break;
+    case "textarea":
+      inputElement = (
+        <textarea
+          ref={props.formReference}
+          {...props.elementConfig}
+          className={classNameArray.join(" ")}
+        />
+      );
+      break;
     case "select":
       const selectOptions = props.value.map((value) => {
-        return <option key={value} value={value}>{value}</option>;
+        return (
+          <option key={value} value={value}>
+            {value}
+          </option>
+        );
       });
       inputElement = (
-        <select {...props.elementConfig} defaultValue={props.defaultValue} ref={props.formReference}>
-          <option key={"default"} value={""}>select one</option>
+        <select
+          {...props.elementConfig}
+          defaultValue={props.defaultValue}
+          ref={props.formReference}
+        >
+          <option key={"default"} value={""}>
+            select one
+          </option>
           {selectOptions}
         </select>
       );
