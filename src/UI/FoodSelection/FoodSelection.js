@@ -19,7 +19,7 @@ const FoodSelection = (props) => {
     foodList = props.foods.map((food, index) => {
       return (
         <FoodItem
-          small={false}
+          size={props.size}
           id={food._id}
           draggableId={"foodSelectionDraggable-" + food._id}
           index={index}
