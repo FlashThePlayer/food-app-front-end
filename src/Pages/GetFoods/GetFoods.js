@@ -4,7 +4,7 @@ import { getFoodsSchema } from "../../GraphQl/Schema/Schema";
 import classes from "../GetFoods/GetFoods.module.css";
 import FoodSelection from "../../UI/FoodSelection/FoodSelection";
 import QueryComponent from "../../UI/QueryComponent/QueryComponent";
-import {DragDropContext} from "react-beautiful-dnd";
+import { DragDropContext } from "react-beautiful-dnd";
 
 import {
   pageDecrement,
@@ -18,7 +18,7 @@ const GetFoods = () => {
 
   const [pageState, dispatch] = useReducer(pageReducer, {
     page: 1,
-    totalPages: 1
+    totalPages: 1,
   });
 
   const [foodArray, setFoodArray] = useState([]);
@@ -47,9 +47,7 @@ const GetFoods = () => {
     });
   };
 
-  const onDragEndHandler = () => {
-
-  }
+  const onDragEndHandler = () => {};
 
   return (
     <React.Fragment>
@@ -59,12 +57,12 @@ const GetFoods = () => {
       <DragDropContext onDragEnd={onDragEndHandler}>
         <div className={classes.Content}>
           <FoodSelection
-              loading={loading}
-              foods={foodArray}
-              page={pageState.page}
-              totalPages={pageState.totalPages}
-              prevPageHandler={() => dispatch(pageDecrement())}
-              nextPageHandler={() => dispatch(pageIncrement())}
+            loading={loading}
+            foods={foodArray}
+            page={pageState.page}
+            totalPages={pageState.totalPages}
+            prevPageHandler={() => dispatch(pageDecrement())}
+            nextPageHandler={() => dispatch(pageIncrement())}
           />
         </div>
       </DragDropContext>
