@@ -2,37 +2,43 @@ import React from "react";
 
 import classes from "./FoodItem.module.css";
 import { Draggable } from "react-beautiful-dnd";
+import Icon from "../Icon/Icon";
+import { ICONS } from "../Icon/IconConstants";
 
 const FoodItem = (props) => {
   let content;
+  let cssClass;
 
   switch (props.size) {
     case "small":
+      cssClass = classes.SmallFoodItem;
       content = (
-        <div className={classes.SmallFoodItem}>
+        <React.Fragment>
           <p>{props.name}</p>
-        </div>
+        </React.Fragment>
       );
       break;
     case "mid":
+      cssClass = classes.MidFoodItem;
       content = (
-        <div className={classes.MidFoodItem}>
+        <React.Fragment>
           <p>{props.name}</p>
           <p>{props.rating}</p>
           <p>{props.difficulty}</p>
-        </div>
+        </React.Fragment>
       );
       break;
     case "full":
     default:
+      cssClass = classes.MidFoodItem;
       content = (
-        <div className={classes.FoodItem}>
+        <React.Fragment>
           <p>{props.name}</p>
           <p className={classes.Link}>{props.link}</p>
           <p>{props.favorite}</p>
           <p>{props.rating}</p>
           <p>{props.difficulty}</p>
-        </div>
+        </React.Fragment>
       );
   }
 
@@ -46,11 +52,13 @@ const FoodItem = (props) => {
         <div
           ref={provided.innerRef}
           {...provided.draggableProps}
-          {...provided.dragHandleProps}
           key={props.id}
-          className={classes.Content}
+          className={cssClass}
         >
           {content}
+          <div {...provided.dragHandleProps}>
+            <Icon icon={ICONS.ControlIndicator} />
+          </div>
         </div>
       )}
     </Draggable>
