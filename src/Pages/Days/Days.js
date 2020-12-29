@@ -109,6 +109,7 @@ const Days = (props) => {
           />
           <QueryComponent submitHandler={onQuerySubmitHandler} />
           <FoodSelection
+            size={"mid"}
             loading={getFoodsIsLoading}
             foods={foodArray}
             page={pageState.page}
@@ -181,24 +182,26 @@ const _createPatchDayInput = (date, foodIds) => {
 };
 
 const _checkWhichCase = (source, destination) => {
-  if (source.droppableId.startsWith("droppableDay") && destination == null) {
+  const destId = destination !== null ? destination.droppableId : null;
+  const sourceId = source.droppableId;
+  if (sourceId.startsWith("droppableDay") && destId == null) {
     return "DELETE";
   }
   if (
-    source.droppableId.startsWith("droppableFood") &&
-    destination.droppableId.startsWith("droppableDay")
+      sourceId.startsWith("droppableFood") &&
+      destId.startsWith("droppableDay")
   ) {
     return "ADD";
   }
   if (
-    source.droppableId !== destination.droppableId &&
-    source.droppableId.startsWith("droppableDay") &&
-    destination.droppableId.startsWith("droppableDay")
+      sourceId !== destination.droppableId &&
+      sourceId.startsWith("droppableDay") &&
+      destId.startsWith("droppableDay")
   ) {
-    return "MOVE_BETWEEN_DAYS"
+    return "MOVE_BETWEEN_DAYS";
   }
 
-  if (source.droppableId === destination.droppableId) {
+  if (sourceId === destId && sourceId.startsWith("droppableDay")) {
     return "REORDER";
   }
 };

@@ -10,7 +10,7 @@ const Day = ({ id, food, dayName, droppableId }) => {
   foodList = food.map((food, index) => {
     return (
       <FoodItem
-        small={true}
+        size={"small"}
         id={food._id}
         index={index}
         draggableId={`dayDraggable-${dayName}-${index}-${food._id}`}
