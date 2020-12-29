@@ -6,22 +6,34 @@ import { Draggable } from "react-beautiful-dnd";
 const FoodItem = (props) => {
   let content;
 
-  if (props.small) {
-    content = (
-      <React.Fragment>
-        <p>{props.name}</p>
-      </React.Fragment>
-    );
-  } else {
-    content = (
-      <React.Fragment>
-        <p>{props.name}</p>
-        <p>{props.link}</p>
-        <p>{props.favorite}</p>
-        <p>{props.rating}</p>
-        <p>{props.difficulty}</p>
-      </React.Fragment>
-    );
+  switch (props.size) {
+    case "small":
+      content = (
+        <div className={classes.SmallFoodItem}>
+          <p>{props.name}</p>
+        </div>
+      );
+      break;
+    case "mid":
+      content = (
+        <div className={classes.MidFoodItem}>
+          <p>{props.name}</p>
+          <p>{props.rating}</p>
+          <p>{props.difficulty}</p>
+        </div>
+      );
+      break;
+    case "full":
+    default:
+      content = (
+        <div className={classes.FoodItem}>
+          <p>{props.name}</p>
+          <p className={classes.Link}>{props.link}</p>
+          <p>{props.favorite}</p>
+          <p>{props.rating}</p>
+          <p>{props.difficulty}</p>
+        </div>
+      );
   }
 
   return (
@@ -36,7 +48,7 @@ const FoodItem = (props) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           key={props.id}
-          className={props.small ? classes.SmallFoodItem : classes.FoodItem}
+          className={classes.Content}
         >
           {content}
         </div>
