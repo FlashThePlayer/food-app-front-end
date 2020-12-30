@@ -17,6 +17,7 @@ const FoodItem = (props) => {
           <p>{props.name}</p>
         </React.Fragment>
       );
+      content = _wrapInDroppableComponent(props, cssClass, content);
       break;
     case "mid":
       cssClass = classes.MidFoodItem;
@@ -27,6 +28,7 @@ const FoodItem = (props) => {
           <p>{props.difficulty}</p>
         </React.Fragment>
       );
+      content = _wrapInDroppableComponent(props, cssClass, content);
       break;
     case "full":
     default:
@@ -40,8 +42,13 @@ const FoodItem = (props) => {
           <p>{props.difficulty}</p>
         </React.Fragment>
       );
+      content = _wrapInDroppableComponent(props, cssClass, content);
   }
 
+  return <React.Fragment>{content}</React.Fragment>;
+};
+
+const _wrapInDroppableComponent = (props, cssClass, content) => {
   return (
     <Draggable
       draggableId={props.draggableId}
