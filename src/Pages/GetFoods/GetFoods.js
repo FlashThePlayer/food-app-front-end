@@ -5,6 +5,7 @@ import classes from "../GetFoods/GetFoods.module.css";
 import FoodSelection from "../../UI/FoodSelection/FoodSelection";
 import QueryComponent from "../../UI/QueryComponent/QueryComponent";
 import { DragDropContext } from "react-beautiful-dnd";
+import { SIZE } from "../../UI/FoodItem/SizeConstants";
 
 import {
   pageDecrement,
@@ -57,6 +58,7 @@ const GetFoods = () => {
       <DragDropContext onDragEnd={onDragEndHandler}>
         <div className={classes.Content}>
           <FoodSelection
+            size={SIZE.BIG}
             loading={loading}
             foods={foodArray}
             page={pageState.page}

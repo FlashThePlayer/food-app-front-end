@@ -3,6 +3,7 @@ import React from "react";
 import classes from "./Day.module.css";
 import FoodItem from "../FoodItem/FoodItem";
 import { Droppable } from "react-beautiful-dnd";
+import {SIZE} from "../FoodItem/SizeConstants";
 
 const Day = ({ id, food, dayName, droppableId }) => {
   let foodList;
@@ -10,7 +11,7 @@ const Day = ({ id, food, dayName, droppableId }) => {
   foodList = food.map((food, index) => {
     return (
       <FoodItem
-        size={"small"}
+        size={SIZE.SMALL}
         id={food._id}
         index={index}
         draggableId={`dayDraggable-${dayName}-${index}-${food._id}`}

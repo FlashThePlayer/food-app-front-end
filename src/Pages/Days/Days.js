@@ -18,6 +18,7 @@ import { pageReducer } from "../../Context/Reducer";
 import Week from "../../UI/Week/Week";
 import { DragDropContext } from "react-beautiful-dnd";
 import DateForm from "../../UI/DateForm/DateForm";
+import { SIZE } from "../../UI/FoodItem/SizeConstants";
 
 import { moveInArray } from "../../Shared/util";
 
@@ -109,7 +110,7 @@ const Days = (props) => {
           />
           <QueryComponent submitHandler={onQuerySubmitHandler} />
           <FoodSelection
-            size={"mid"}
+            size={SIZE.MID}
             loading={getFoodsIsLoading}
             foods={foodArray}
             page={pageState.page}
