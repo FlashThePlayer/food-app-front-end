@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import classes from "./CreateFood.module.css";
 import createInput, {
   createTextarea,
-  defaultRules,
   createSelect,
 } from "../../Shared/createFormFields";
 import Spinner from "../../UI/Spinner/Spinner";
@@ -28,8 +27,8 @@ const CreateFood = (props) => {
   const formSchema = {
     name: createInput("", "foodName", "Name of the food", "", {}),
     link: createInput("", "foodLink", "link to the recipe", "", {}),
-    pictureLink: createInput("", "pictureLink", "link to the picture", "", {}),
-    textArea: createTextarea(5, 5, "recipe", "your recipe goes here", "", {}),
+    picture: createInput("", "pictureLink", "link to the picture", "", {}),
+    recipe: createTextarea(5, 5, "recipe", "your recipe goes here", "", {}),
     favorite: createInput("checkbox", "favorite", "false", "", {}),
     stars: createInput("number", "rating", "", "1", {}),
     difficulty: createSelect("difficulty", ["easy", "normal", "hard"], {}),
