@@ -54,6 +54,12 @@ export const getFoodSchema = gql`
   }
 `;
 
+export const deleteFoodSchema = gql`
+  mutation deleteFood($id: String!) {
+    deleteFood(id: $id) 
+  }
+`;
+
 export const getDaysSchema = gql`
   query getDays($date: String!) {
     getDays(date: $date) {
