@@ -70,7 +70,7 @@ const FoodItem = (props) => {
                 ))}
               </div>
               <div>{rating}</div>
-              <Button>delete</Button>
+              <Button type={"button"} onClickHandler={props.onClickHandler}>delete</Button>
             </div>
             <div className={classes.FoodPicture}>
               <p>{props.name}</p>
