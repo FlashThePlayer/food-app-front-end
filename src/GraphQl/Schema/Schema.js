@@ -39,6 +39,21 @@ export const getFoodsSchema = gql`
   }
 `;
 
+export const getFoodSchema = gql`
+  query getFood($id: String!) {
+    getFood(id: $id) {
+        name
+        link
+        pictureLink
+        favorite
+        rating
+        difficulty
+        keywords
+        recipe
+    }
+  }
+`;
+
 export const getDaysSchema = gql`
   query getDays($date: String!) {
     getDays(date: $date) {
