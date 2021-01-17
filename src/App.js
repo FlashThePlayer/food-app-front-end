@@ -14,13 +14,14 @@ import Logout from "./Authentication/Logout/Logout";
 import Days from "./Pages/Days/Days";
 import CreateFood from "./Pages/CreateFood/CreateFood";
 import GetFoods from "./Pages/GetFoods/GetFoods";
+import GetFood from "./Pages/GetFood/GetFood";
 
 const App = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(checkAuthState(props.history));
-  }, [dispatch]);
+  }, [dispatch, props.history]);
 
   const isAuthenticated = useSelector((state) => {
     return state.auth.token !== null;
@@ -41,6 +42,7 @@ const App = (props) => {
           <Route path="/days" render={(props) => <Days {...props} />} />
           <Route path="/createFood" render={(props) => <CreateFood {...props} />} />
           <Route path="/getFoods" render={(props) => <GetFoods {...props} />} />
+          <Route path="/getFood/:id" render={(props) => <GetFood {...props} />} />
           <Route path="/" render={(props) => <HomePage {...props} />} />
           <Redirect to="/" />
         </Switch>
