@@ -1,9 +1,9 @@
 import React from "react";
 
-import classes from "./Modal.module.css";
-import Backdrop from "../Backdrop/Backdrop";
+import classes from "./InfoModal.module.css";
+import Backdrop from "../../Backdrop/Backdrop";
 
-const modal = (props) => {
+const infoModal = (props) => {
   let display = props.children;
   if (props.show) {
       display = (
@@ -20,7 +20,7 @@ const modal = (props) => {
 };
 
 export default React.memo(
-  modal,
+  infoModal,
   (prevProps, nextProps) =>
     nextProps.show === prevProps.show &&
     nextProps.children === prevProps.children
