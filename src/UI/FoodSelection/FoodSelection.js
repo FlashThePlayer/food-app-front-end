@@ -44,7 +44,7 @@ const FoodSelection = (props) => {
   if (foodList.length === 0) {
     foodList = (
       <div className={classes.NoFoodBanner}>
-        <p>Create some food already!</p>
+        <p>No food... well this is awkward  ¯\_(ツ)_/¯</p>
       </div>
     );
     pages = null;
