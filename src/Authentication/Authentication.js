@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
 import classes from "./Authentication.module.css";
-import Modal from "../UI/Modal/Modal";
+import Modal from "../UI/Modal/InfoModal/InfoModal";
 import ToggleButton from "../UI/Button/ToggleButton/ToggleButton";
 import Button from "../UI/Button/Button/Button";
 import Spinner from "../UI/Spinner/Spinner";

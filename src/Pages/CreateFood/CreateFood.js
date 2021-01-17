@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import { createFoodSchema } from "../../GraphQl/Schema/Schema";
 import Button from "../../UI/Button/Button/Button";
-import Modal from "../../UI/Modal/Modal";
+import Modal from "../../UI/Modal/InfoModal/InfoModal";
 
 const CreateFood = (props) => {
   const { register, handleSubmit, errors } = useForm({ mode: "onBlur" });
