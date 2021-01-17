@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import classes from "./Authentication.module.css";
 import Modal from "../UI/Modal/Modal";
 import ToggleButton from "../UI/Button/ToggleButton/ToggleButton";
-import SubmitButton from "../UI/Button/SubmitButton/SubmitButton";
+import Button from "../UI/Button/Button/Button";
 import Spinner from "../UI/Spinner/Spinner";
 import createFormFields, {
   defaultRules,
@@ -103,7 +103,7 @@ const Authentication = (props) => {
       <div className={classes.Auth}>
         <form onSubmit={handleSubmit(onSubmitHandler)}>
           {form}
-          <SubmitButton>Submit</SubmitButton>
+          <Button type={"submit"}>Submit</Button>
         </form>
       </div>
       {signInLoading || signUpLoading ? (

@@ -7,6 +7,7 @@ import { ICONS } from "../Icon/IconConstants";
 import { SIZE } from "./SizeConstants";
 import { NavLink } from "react-router-dom";
 import MultiLineText from "../MultiLineText/MultiLineText";
+import Button from "../Button/Button/Button";
 
 const FoodItem = (props) => {
   const maxRating = 5; //ok for now be definitely NEEDS a better place, best case given down by props
@@ -56,7 +57,6 @@ const FoodItem = (props) => {
       break;
     case SIZE.FULL:
     default:
-      console.log(props.recipe)
       content = (
         <React.Fragment>
           <div className={classes.FoodItem}>
@@ -70,6 +70,7 @@ const FoodItem = (props) => {
                 ))}
               </div>
               <div>{rating}</div>
+              <Button>delete</Button>
             </div>
             <div className={classes.FoodPicture}>
               <p>{props.name}</p>

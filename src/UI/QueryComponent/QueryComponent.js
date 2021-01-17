@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./QueryComponent.module.css"
-import SubmitButton from "../Button/SubmitButton/SubmitButton";
+import Button from "../Button/Button/Button";
 import createInput, { createSelect } from "../../Shared/createFormFields";
 import { useForm } from "react-hook-form";
 import { createQueryFormFromSchema } from "../../Shared/createQueryFormFromSchema";
@@ -34,7 +34,7 @@ const QueryComponent = ({ submitHandler }) => {
       <form onSubmit={handleSubmit(submitHandler)}>
         <div>{queryForm}</div>
         <div>{extendedQueryForm}</div>
-        <SubmitButton>Search</SubmitButton>
+        <Button>Search</Button>
       </form>
     </div>
   );

@@ -11,7 +11,7 @@ import ChipInput from "material-ui-chip-input";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import { createFoodSchema } from "../../GraphQl/Schema/Schema";
-import SubmitButton from "../../UI/Button/SubmitButton/SubmitButton";
+import Button from "../../UI/Button/Button/Button";
 import Modal from "../../UI/Modal/Modal";
 
 const CreateFood = (props) => {
@@ -124,7 +124,7 @@ const CreateFood = (props) => {
               onDelete={(chip, index) => onDeleteChipHandler(index)}
             />
           </div>
-          <SubmitButton>Submit</SubmitButton>
+          <Button type={"submit"}>Submit</Button>
         </form>
       </div>
       {createFoodLoading ? (
