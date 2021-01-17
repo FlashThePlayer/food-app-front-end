@@ -6,6 +6,7 @@ import Icon from "../Icon/Icon";
 import { ICONS } from "../Icon/IconConstants";
 import { SIZE } from "./SizeConstants";
 import { NavLink } from "react-router-dom";
+import MultiLineText from "../MultiLineText/MultiLineText";
 
 const FoodItem = (props) => {
   const maxRating = 5; //ok for now be definitely NEEDS a better place, best case given down by props
@@ -52,6 +53,34 @@ const FoodItem = (props) => {
         </React.Fragment>
       );
       content = _wrapInDroppableComponent(props, cssClass, content);
+      break;
+    case SIZE.FULL:
+    default:
+      console.log(props.recipe)
+      content = (
+        <React.Fragment>
+          <div className={classes.FoodItem}>
+            <div className={classes.FoodInfo}>
+              <p>{props.name}</p>
+              <p>{props.link}</p>
+              <p>{props.difficulty}</p>
+              <div>
+                {props.keywords.map((keyword) => (
+                  <p className={classes.FoodTags}>{keyword}</p>
+                ))}
+              </div>
+              <div>{rating}</div>
+            </div>
+            <div className={classes.FoodPicture}>
+              <p>{props.name}</p>
+              <img alt={props.name} src={props.pictureLink} />
+            </div>
+            <div className={classes.FoodRecipe}>
+              <MultiLineText text={props.recipe}/>
+            </div>
+          </div>
+        </React.Fragment>
+      );
   }
 
   return <React.Fragment>{content}</React.Fragment>;
