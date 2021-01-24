@@ -15,7 +15,7 @@ import {
 import { pageReducer } from "../../Context/Reducer";
 
 const GetFoods = () => {
-  const [getFoods, { loading, data }] = useLazyQuery(getFoodsSchema);
+  const [getFoods, { loading, data }] = useLazyQuery(getFoodsSchema, { fetchPolicy: "cache-and-network" });
 
   const [pageState, dispatch] = useReducer(pageReducer, {
     page: 1,
