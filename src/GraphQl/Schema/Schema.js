@@ -77,8 +77,8 @@ export const getDaysSchema = gql`
 `;
 
 export const patchDaySchema = gql`
-  mutation patchDay($dayInput: DayInputData!) {
-    patchDay(dayInput: $dayInput) {
+  mutation patchDay($dayInputs: [DayInputData!]!) {
+    patchDay(dayInputs: $dayInputs) {
       meals {
         _id
         name
