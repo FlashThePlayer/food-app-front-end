@@ -23,7 +23,7 @@ import { SIZE } from "../../UI/FoodItem/SizeConstants";
 import { moveInArray } from "../../Shared/util";
 
 const Days = (props) => {
-  const [patchDay] = useMutation(patchDaySchema);
+  const [patchDay, error] = useMutation(patchDaySchema);
   const [
     getDays,
     { loading: getDaysIsLoading, data: getDaysData },
@@ -63,6 +63,12 @@ const Days = (props) => {
       setWeekState({ days: days, date: dateState });
     }
   }, [dateState, getDaysData]);
+
+  useEffect(() => {
+    if(error) {
+      console.log(error)
+    }
+  }, [error])
 
   const onQuerySubmitHandler = ({ foodName, favorite, rating, difficulty }) => {
     getFoods({
@@ -138,16 +144,16 @@ const _handlePatchDay = (source, destination, foods, days) => {
 
   switch (whichCase) {
     case "ADD":
-      dayInputs = [..._addFoodToDay(source, destination, foods, days)];
+      dayInputs = [_addFoodToDay(source, destination, foods, days)];
       break;
     case "DELETE":
-      dayInputs = [..._deleteFoodFromDay(source, days)];
+      dayInputs = [_deleteFoodFromDay(source, days)];
       break;
     case "REORDER":
-      dayInputs = [..._reorderFoodFromDay(source, destination, days)];
+      dayInputs = [_reorderFoodFromDay(source, destination, days)];
       break;
     case "MOVE_BETWEEN_DAYS":
-      dayInputs = [..._moveFoodBetweenDays(source, destination, foods, days)];
+      dayInputs = _moveFoodBetweenDays(source, destination, foods, days);
       break;
   }
 
